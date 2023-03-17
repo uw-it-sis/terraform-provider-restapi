@@ -22,9 +22,9 @@ jobs:
           ref=${{ github.ref }}
           IFS='/' # Split the tag using / as the delimiter
           read -ra TAG <<< "$ref"
-          export _TAG=${TAG[2]}
+          export TAG=${TAG[2]}
           # Put the tag into an environment variable
-          echo "_TAG=${_TAG} >> $GITHUB_ENV"
+          echo "TAG=${TAG}" >> $GITHUB_ENV
         
       - name: Set up Go
         uses: actions/setup-go@v3
@@ -42,7 +42,7 @@ jobs:
               platform_split=(${platform//\// })
               GOOS=${platform_split[0]}
               GOARCH=${platform_split[1]}
-              output_name=$package_name'_'$_TAG'-'$GOOS'-'$GOARCH
+              output_name=$package_name'_'$TAG'-'$GOOS'-'$GOARCH
               if [ $GOOS = "windows" ]; then
                   output_name+='.exe'
               fi
@@ -67,14 +67,14 @@ jobs:
           name: metadata
           path: metadata.txt
                                  
-      - name: Create Release ${{ env._TAG }}
+      - name: Create Release ${{ env.TAG }}
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions.
         with:
           tag_name: ${{ github.ref }}
-          release_name: Release ${{ env._TAG }}
+          release_name: Release ${{ env.TAG }}
           body: |
             Changes ...
             - Initial
@@ -122,14 +122,14 @@ jobs:
           IFS='|' # Split the line using | as the delimiter
           read -ra LINE <<< "$line_in"
           
-          echo "ARTIFACT_FILENAME=${LINE[1]} >> $GITHUB_ENV"
+          echo "ARTIFACT_FILENAME=${LINE[1]}" >> $GITHUB_ENV
       
       - name: Parse url
         shell: bash
         run: |
           release_url=`cat url/url.txt`
           echo "release_url=[$release_url]"
-          echo "RELEASE_URL=${release_url} >> $GITHUB_ENV"
+          echo "RELEASE_URL=${release_url}" >> $GITHUB_ENV
 
       - name: TEST get env
         shell: bash
