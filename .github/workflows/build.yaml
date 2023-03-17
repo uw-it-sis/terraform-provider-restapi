@@ -122,21 +122,21 @@ jobs:
           IFS='|' # Split the line using | as the delimiter
           read -ra LINE <<< "$line_in"
           
-          echo "_ARTIFACT_FILENAME=${LINE[1]} >> $GITHUB_ENV"
+          echo "ARTIFACT_FILENAME=${LINE[1]} >> $GITHUB_ENV"
       
       - name: Parse url
         shell: bash
         run: |
           release_url=`cat url/url.txt`
           echo "release_url=[$release_url]"
-          echo "_RELEASE_URL=${release_url} >> $GITHUB_ENV"
+          echo "RELEASE_URL=${release_url} >> $GITHUB_ENV"
 
       - name: TEST get env
         shell: bash
         run: |
           cat "$GITHUB_ENV"
           # release_url=`cat url/url.txt`
-          # echo "_RELEASE_URL=${release_url} >> $GITHUB_ENV"
+          # echo "RELEASE_URL=${release_url} >> $GITHUB_ENV"
         
         
       - name: Upload Release Asset
@@ -145,8 +145,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ env._RELEASE_URL }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`.
-          asset_path: ./binaries/${{ env._ARTIFACT_FILENAME }}
-          asset_name: ${{ env._ARTIFACT_FILENAME }}
+          upload_url: ${{ env.RELEASE_URL }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`.
+          asset_path: ./binaries/${{ env.ARTIFACT_FILENAME }}
+          asset_name: ${{ env.ARTIFACT_FILENAME }}
           asset_content_type: application/octet-stream
         
