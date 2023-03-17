@@ -22,7 +22,7 @@ jobs:
           ref=${{ github.ref }}
           IFS='/' # Split the tag using / as the delimiter
           read -ra TAG <<< "$ref"
-          export TAG=${TAG[2]}
+          # export TAG=${TAG[2]}
           # Put the tag into an environment variable
           echo "TAG=${TAG}" >> $GITHUB_ENV
         
