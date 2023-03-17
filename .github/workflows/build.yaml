@@ -129,6 +129,14 @@ jobs:
         run: |
           release_url=`cat url/url.txt`
           echo "_RELEASE_URL=${release_url} >> $GITHUB_ENV"
+
+      - name: TEST get env
+        shell: bash
+        run: |
+          cat "$GITHUB_ENV"
+          # release_url=`cat url/url.txt`
+          # echo "_RELEASE_URL=${release_url} >> $GITHUB_ENV"
+        
         
       - name: Upload Release Asset
         id: upload-release-asset
