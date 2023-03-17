@@ -24,7 +24,7 @@ jobs:
           read -ra TAG <<< "$ref"
           export _TAG=${TAG[2]}
           # Put the tag into an environment variable
-          echo "::set-env name=_TAG::$_TAG"
+          echo "_TAG=${_TAG}" >> $GITHUB_ENV
         
       - name: Set up Go
         uses: actions/setup-go@v3
@@ -122,13 +122,13 @@ jobs:
           IFS='|' # Split the line using | as the delimiter
           read -ra LINE <<< "$line_in"
           
-          echo "::set-env name=_ARTIFACT_FILENAME::${LINE[1]}"
+          echo "_ARTIFACT_FILENAME=${LINE[1]} >> $GITHUB_ENV"
       
       - name: Parse url
         shell: bash
         run: |
           release_url=`cat url/url.txt`
-          echo "::set-env name=_RELEASE_URL::${release_url}"
+          echo "_RELEASE_URL=${release_url} >> $GITHUB_ENV"
         
       - name: Upload Release Asset
         id: upload-release-asset
