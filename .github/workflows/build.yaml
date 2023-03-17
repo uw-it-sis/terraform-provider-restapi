@@ -20,11 +20,10 @@ jobs:
         id: get_tag
         run: |
           ref=${{ github.ref }}
-          IFS='/' # Split the tag using / as the delimiter
-          read -ra TAG <<< "$ref"
-          # export TAG=${TAG[2]}
+          # Split the tag using / as the delimiter
+          IFS='/' read -ra TAG <<< "$ref"
+          export TAG=${TAG[2]}
           # Put the tag into an environment variable
-          echo $GITHUB_ENV
           echo "TAG=${TAG}" >> $GITHUB_ENV
         
       - name: Set up Go
