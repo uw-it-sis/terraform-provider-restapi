@@ -128,6 +128,7 @@ jobs:
         shell: bash
         run: |
           release_url=`cat url/url.txt`
+          echo "release_url=[$release_url]"
           echo "_RELEASE_URL=${release_url} >> $GITHUB_ENV"
 
       - name: TEST get env
