@@ -24,6 +24,7 @@ jobs:
           read -ra TAG <<< "$ref"
           # export TAG=${TAG[2]}
           # Put the tag into an environment variable
+          echo $GITHUB_ENV
           echo "TAG=${TAG}" >> $GITHUB_ENV
         
       - name: Set up Go
