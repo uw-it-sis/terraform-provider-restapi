@@ -56,13 +56,13 @@ jobs:
           done
           
       - name: Upload Binaries
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: binaries
           path: bin/*
           
       - name: Upload Binaries Metadata
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: metadata
           path: metadata.txt
@@ -87,7 +87,7 @@ jobs:
           echo "${{ steps.create_release.outputs.upload_url }}" > url.txt
 
       - name: Upload Release URL
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: url
           path: url.txt
@@ -101,7 +101,7 @@ jobs:
     needs: build
     steps:
       - name: Download Artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
       
       - name: List Artifacts
         shell: bash
